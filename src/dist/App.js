@@ -1,53 +1,16 @@
 "use strict";
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 exports.__esModule = true;
 var react_1 = require("react");
 var NavBar_1 = require("./components/NavBar");
-var TodoForm_1 = require("./components/TodoForm");
-var TodoList_1 = require("./components/TodoList");
+var react_router_dom_1 = require("react-router-dom");
+var TodosPage_1 = require("./components/TodosPage");
+var AboutPage_1 = require("./components/AboutPage");
 var App = function () {
-    var _a = react_1.useState([]), todos = _a[0], setTodos = _a[1];
-    react_1.useEffect(function () {
-        var saved = JSON.parse(localStorage.getItem('todos') || '[]');
-        setTodos(saved);
-    }, []);
-    react_1.useEffect(function () {
-        localStorage.setItem('todos', JSON.stringify(todos));
-    }, [todos]);
-    var addTodo = function (todo) {
-        var newTodo = {
-            title: todo,
-            id: Date.now(),
-            completed: false
-        };
-        setTodos(function (prev) { return __spreadArrays([newTodo], prev); });
-    };
-    var toggleHandler = function (id) {
-        var newTodos = todos.map(function (todo) {
-            if (todo.id === id) {
-                console.log(todo.completed);
-                todo.completed = !todo.completed;
-            }
-            return todo;
-        });
-        setTodos(newTodos);
-    };
-    var removeHandler = function (id) {
-        var shouldRemove = confirm('Вы уверены, что хотите удалить элемент?');
-        if (shouldRemove) {
-            setTodos(function (prev) { return prev.filter(function (todo) { return todo.id !== id; }); });
-        }
-    };
-    return (react_1["default"].createElement(react_1["default"].Fragment, null,
+    return (react_1["default"].createElement(react_router_dom_1.BrowserRouter, null,
         react_1["default"].createElement(NavBar_1.NavBar, null),
         react_1["default"].createElement("div", { className: "container" },
-            react_1["default"].createElement(TodoForm_1.TodoForm, { addTodo: addTodo }),
-            react_1["default"].createElement(TodoList_1.TodoList, { todos: todos, onToggle: toggleHandler, onRemove: removeHandler }))));
+            react_1["default"].createElement(react_router_dom_1.Switch, null,
+                react_1["default"].createElement(react_router_dom_1.Route, { component: TodosPage_1.TodosPage, path: "/", exact: true }),
+                react_1["default"].createElement(react_router_dom_1.Route, { component: AboutPage_1.AboutPage, path: "/about" })))));
 };
 exports["default"] = App;
